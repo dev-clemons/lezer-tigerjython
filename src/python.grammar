@@ -1,3 +1,5 @@
+@dialects { TigerJython }
+
 @precedence {
   cond,
   trail,
@@ -110,6 +112,7 @@ compoundStatement {
   IfStatement |
   WhileStatement { kw<"while"> testNamed Body elseClause? } |
   ForStatement { kw<"async">? kw<"for"> commaSep<"*"? expression> kw<"in"> commaSep<test> Body elseClause? } |
+  RepeatStatement[@dialect=TigerJython] { kw<"repeat"> expression Body elseClause? | kw<"repeat"> Body elseClause? } |
   TryStatement |
   WithStatement { kw<"async">? kw<"with"> commaSep<test (kw<"as"> VariableName)?> Body } |
   FunctionDefinition |
