@@ -1,5 +1,3 @@
-@dialects { TigerPython }
-
 @precedence {
   cond,
   trail,
@@ -97,7 +95,6 @@ smallStatement {
   ContinueStatement { kw<"continue"> } |
   ReturnStatement { kw<"return"> commaSep<test | "*" expression>? } |
   YieldStatement { yield } |
-  PrintStatement { printKeyword test } |
   RaiseStatement { kw<"raise"> (test (kw<"from"> test | ("," test ("," test)?))?)? } |
   ImportStatement |
   ScopeStatement { (kw<"global"> | kw<"nonlocal">) commaSep<VariableName> } |
@@ -289,8 +286,6 @@ FormatReplacement[isolate] { formatReplacement<replacementStart> }
 nestedFormatReplacement[isolate,@name=FormatReplacement,@export] { formatReplacement<"{"> }
 
 @context trackIndent from "./tokens.js"
-
-@external tokens legacyPrint from "./tokens.js" { printKeyword[@name="print"] }
 
 @external tokens indentation from "./tokens" { indent, dedent }
 
