@@ -20,6 +20,7 @@ export const pythonHighlighting = styleTags({
   Number: t.number,
   String: t.string,
   FormatString: t.special(t.string),
+  Escape: t.escape,
   UpdateOp: t.updateOperator,
   "ArithOp!": t.arithmeticOperator,
   BitOp: t.bitwiseOperator,

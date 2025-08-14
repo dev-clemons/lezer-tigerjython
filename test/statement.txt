@@ -261,6 +261,16 @@ Script(
     ExpressionStatement(VariableName))),
   ExpressionStatement(VariableName))
 
+# Script ending in a comment
+
+x = 1
+
+# End
+
+==>
+
+Script(AssignStatement(VariableName,AssignOp,Number),Comment)
+
 # Escaped newlines
 
 x = 1 + \
@@ -358,6 +368,8 @@ match foo:
     pass
   case [a, b, *rest] | (p, q):
     pass
+  case (1, 2) if bar == 2:
+    pass
 
 ==>
 
@@ -382,4 +394,49 @@ Script(MatchStatement(match,VariableName,MatchBody(
         StarPattern(CapturePattern(VariableName))),
       LogicOp,
       SequencePattern(CapturePattern(VariableName),CapturePattern(VariableName))),
+    Body(PassStatement(pass))),
+  MatchClause(case,
+    SequencePattern(LiteralPattern(Number),LiteralPattern(Number)),
+    Guard(if,BinaryExpression(VariableName,CompareOp,Number)),
     Body(PassStatement(pass))))))
+
+# Type Params
+
+class ClassA[T: str]:
+  def method1(self) -> T:
+    pass
+
+def func[**T](a: T, b: T) -> T:
+  pass
+
+==>
+
+Script(
+  ClassDefinition(class,VariableName,
+    TypeParamList(TypeParam(VariableName,TypeDef(":",VariableName))),
+    Body(FunctionDefinition(def,VariableName,ParamList(VariableName),TypeDef(VariableName),
+      Body(PassStatement(pass))))),
+  FunctionDefinition(def,VariableName,TypeParamList(TypeParam(VariableName)),
+    ParamList(VariableName,TypeDef(VariableName),VariableName,TypeDef(VariableName)),
+    TypeDef(VariableName),
+    Body(PassStatement(pass))))
+
+# Type Definition
+
+type Point = tuple[float, float]
+
+==>
+
+Script(TypeDefinition(type,VariableName,MemberExpression(VariableName,VariableName,",",VariableName)))
+
+# Rest arg with type
+
+def f(*args: tuple[int]) -> int:
+  return 1
+
+==>
+
+Script(FunctionDefinition(def,VariableName,
+  ParamList(VariableName,TypeDef(MemberExpression(VariableName,VariableName))),
+  TypeDef(VariableName),
+  Body(ReturnStatement(return,Number))))

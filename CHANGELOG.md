@@ -1,3 +1,105 @@
+## 1.1.18 (2025-04-17)
+
+### Bug fixes
+
+Fix parsing of match guards with conditional tests.
+
+## 1.1.17 (2025-03-29)
+
+### Bug fixes
+
+Support escaped quotes inside raw strings.
+
+## 1.1.16 (2025-03-05)
+
+### Bug fixes
+
+Allow type declarations on rest parameters.
+
+## 1.1.15 (2024-12-06)
+
+### Bug fixes
+
+Fix an issue where a commented line at the end of the input would emit an error node.
+
+## 1.1.14 (2024-05-25)
+
+### Bug fixes
+
+Allow dotted names and list of imports in `import` statements.
+
+## 1.1.13 (2024-03-18)
+
+### Bug fixes
+
+Fix an issue where single-quoted strings inside format strings weren't tokenized properly.
+
+## 1.1.12 (2024-03-12)
+
+### Bug fixes
+
+Emit syntax nodes for backslash escapes in strings.
+
+## 1.1.11 (2024-01-16)
+
+### Bug fixes
+
+Support the `=` flag to values in format strings.
+
+## 1.1.10 (2023-12-28)
+
+### Bug fixes
+
+Tag comments and strings as isolating for the purpose of bidirectional text.
+
+## 1.1.9 (2023-10-20)
+
+### Bug fixes
+
+Fix parsing of argument lists that are a comprehension that start with an assignment.
+
+Add support for PEP 654 `except*` syntax.
+
+Implement PEP 695 type parameter syntax.
+
+## 1.1.8 (2023-07-03)
+
+### Bug fixes
+
+Make the package work with new TS resolution styles.
+
+## 1.1.7 (2023-05-27)
+
+### Bug fixes
+
+Fix a bug that broke handling of escaped quotes in format strings.
+
+## 1.1.6 (2023-05-18)
+
+### Bug fixes
+
+Fix parsing of blank lines at the start of the document.
+
+## 1.1.5 (2023-04-28)
+
+### Bug fixes
+
+Fix a bug that caused triple-quoted format strings with quotes in them to be parsed incorrectly.
+
+## 1.1.4 (2023-03-30)
+
+### Bug fixes
+
+Make sure blocks stop at their final newline, and don't include any following blank lines.
+
+## 1.1.3 (2023-03-13)
+
+### Bug fixes
+
+Fix parsing of empty tuple expressions.
+
+Allow `:=` in subscript index expressions.
+
 ## 1.1.2 (2023-02-03)
 
 ### Bug fixes

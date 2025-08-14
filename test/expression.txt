@@ -33,6 +33,14 @@ Script(ExpressionStatement(ContinuedString(String, String)),
        ExpressionStatement(String),
        ExpressionStatement(String))
 
+# Raw string
+
+r"foo\"" + r'\\'
+
+==>
+
+Script(ExpressionStatement(BinaryExpression(String,ArithOp,String)))
+
 # Bracketed continued string
 
 print('00300:'
@@ -42,22 +50,35 @@ print('00300:'
 
 Script(ExpressionStatement(CallExpression(VariableName, ArgList(ContinuedString(String, String)))))
 
-
 # Format strings
 
-f'hello{22} abc {{ }} {d-1}'
-f"double {quoted !s}"
+f'hello{22} abc\' {{ }} {d-1}'
+f"double\" {quoted !s}"
 f"""big long format
   {string :foo}"""
 f'''well {{ \x }} {2 :{bar}}'''
+f"""one"{two}"three"""
+f'{user=!s}  {delta.days=:,d}'
 
 ==>
 
-Script(ExpressionStatement(FormatString(FormatReplacement(Number),
+Script(ExpressionStatement(FormatString(FormatReplacement(Number),Escape,
                            FormatReplacement(BinaryExpression(VariableName, ArithOp, Number)))),
-       ExpressionStatement(FormatString(FormatReplacement(VariableName, FormatConversion))),
+       ExpressionStatement(FormatString(Escape,FormatReplacement(VariableName, FormatConversion))),
        ExpressionStatement(FormatString(FormatReplacement(VariableName, FormatSpec))),
-       ExpressionStatement(FormatString(FormatReplacement(Number, FormatSpec(FormatReplacement(VariableName))))))
+       ExpressionStatement(FormatString(Escape,FormatReplacement(Number, FormatSpec(FormatReplacement(VariableName))))),
+       ExpressionStatement(FormatString(FormatReplacement(VariableName))),
+       ExpressionStatement(FormatString(
+         FormatReplacement(VariableName,FormatSelfDoc,FormatConversion),
+         FormatReplacement(MemberExpression(VariableName,PropertyName),FormatSelfDoc,FormatSpec))))
+
+# Nested quote types
+
+f"a{'b'}c"
+
+==>
+
+Script(ExpressionStatement(FormatString(FormatReplacement(String))))
 
 # Lambda
 
@@ -204,6 +225,7 @@ Script(AssignStatement(VariableName, AssignOp, ConditionalExpression(Number, if,
 2 ** 3 ** 2
 
 ==>
+
 Script(ExpressionStatement(BinaryExpression(
   Number,ArithOp("**"),
   BinaryExpression(Number,ArithOp("**"),Number))))
